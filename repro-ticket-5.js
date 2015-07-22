@@ -11,19 +11,29 @@ if (Meteor.isClient) {
   });
 }
 
+// From Luis:
 if (Meteor.isServer) {
+  Items.remove({});
   Meteor.publish("pubA", function() {
-    return Items.find({}, {fields: {a: 1}});
+    return Items.find({}, {
+      fields: {
+        'b.d': 1
+      }
+    });
   });
-  
   Meteor.publish("pubB", function() {
-    return Items.find({}, {fields: {b: 1}});
+    return Items.find({}, {
+      fields: {
+        'b.c': 1
+      }
+    });
   });
-
   if (Items.find().count() === 0) {
     Items.insert({
-      a: "fieldA",
-      b: "fieldB"
+      'b': {
+        c: "fieldBC",
+        d: "fieldBD"
+      }
     });
   }
 }
